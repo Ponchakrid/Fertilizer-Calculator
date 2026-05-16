@@ -41,6 +41,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Fertilizer Calculator' }],
   creator: 'Fertilizer Calculator',
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     type: 'website',
     locale: 'th_TH',
