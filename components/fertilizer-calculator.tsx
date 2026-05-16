@@ -8,9 +8,7 @@ import { Step2SoilInput } from '@/components/steps/step2-soil-input'
 import { Step3AreaInput } from '@/components/steps/step3-area-input'
 import { Step4Results } from '@/components/steps/step4-results'
 import { BentoCard, BentoGrid } from '@/components/bento-grid'
-import { CropScene } from '@/components/3d/crop-scene'
-import { Leaf, Sprout } from 'lucide-react'
-import dynamic from 'next/dynamic'
+import { Leaf } from 'lucide-react'
 
 const steps = [
   { number: 1, label: 'เลือกพืช' },
@@ -19,21 +17,7 @@ const steps = [
   { number: 4, label: 'ผลลัพธ์' },
 ]
 
-// Dynamically import 3D scene to avoid SSR issues
-const DynamicCropScene = dynamic(
-  () => import('@/components/3d/crop-scene').then((mod) => mod.CropScene),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-full min-h-[300px] rounded-xl bg-gradient-to-b from-sky-100 to-amber-50 flex items-center justify-center">
-        <div className="animate-pulse flex flex-col items-center gap-2">
-          <Sprout className="w-12 h-12 text-primary/40" />
-          <span className="text-sm text-muted-foreground">กำลังโหลด 3D...</span>
-        </div>
-      </div>
-    ),
-  }
-)
+
 
 function StepContent({ step }: { step: number }) {
   switch (step) {
@@ -110,21 +94,16 @@ export function FertilizerCalculator() {
           </aside>
 
           {/* Main Calculator Area */}
-          <div className="flex-1 min-w-0">
-            <BentoGrid className="md:grid-cols-1 lg:grid-cols-2">
+          <div className="flex-1 min-w-0 max-w-4xl mx-auto w-full">
+            <BentoGrid className="md:grid-cols-1">
               {/* Calculator Form */}
-              <BentoCard colSpan={step === 4 ? 2 : 1} className="min-h-[400px]">
+              <BentoCard className="min-h-[400px]">
                 <AnimatePresence mode="wait">
                   <StepContent step={step} />
                 </AnimatePresence>
               </BentoCard>
 
-              {/* 3D Scene - Hidden on results page */}
-              {step !== 4 && (
-                <BentoCard className="hidden lg:block" delay={0.1}>
-                  <DynamicCropScene cropId={cropId} />
-                </BentoCard>
-              )}
+
             </BentoGrid>
           </div>
         </div>
